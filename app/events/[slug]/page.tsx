@@ -2,13 +2,14 @@ import BookEvent from "@/components/BookEvent";
 import EventCard from "@/components/EventCard";
 import { IEvent } from "@/database";
 import { getSimilarEventsBySlug } from "@/lib/actions/event.actions";
+import { cacheLife } from "next/cache";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { notFound } from "next/navigation"; 
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const EventDetailItem = ({ icon, alt, label }: {icon: string; alt: string; label: string }) => (
-  <div className="flex-row-gap-2 items-center">
+  <div className="  ">
     <Image src={icon} alt={alt} width={17} height={17}/>
     <p>{label}</p>
   </div>
@@ -34,6 +35,8 @@ const EventTags = ({ tags }: { tags: string[] }) => (
 )
 
 const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string }>}) => {
+  'use cache'
+  cacheLife('hours');
   const { slug } = await params;
 
   let event;
@@ -117,7 +120,7 @@ const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string }>}
                 <p className="text-sm">Be the first to book your spot!</p>
               )}
               
-              <BookEvent />
+              <BookEvent eventId={event._id} slug={event.slug}/>
             </div>
           </aside>
       </div>
