@@ -135,7 +135,7 @@ const EventDetails = async ({ params }: { params: Promise<string> }) => {
         </div>
       </section>
     )
-  }
 }
+
 
 export default EventDetails
